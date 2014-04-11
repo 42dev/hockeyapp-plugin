@@ -265,8 +265,15 @@ public class HockeyappRecorder extends Recorder {
 		@SuppressWarnings("unchecked")
 		Collection<AbstractBuild<?, ?>> predicated = CollectionUtils.select(builds, new Predicate() {
 			public boolean evaluate(Object o) {
-				return ((AbstractBuild<?, ?>) o).getResult().isBetterOrEqualTo(
+				boolean result = false;
+				try {
+					result =  ((AbstractBuild<?, ?>) o).getResult().isBetterOrEqualTo(
 						Result.SUCCESS);
+				}
+				catch (Exception e) {
+					System.err.println("Caught Exception: " + e.getMessage());
+				}
+				return result;
 			}
 		});
 
